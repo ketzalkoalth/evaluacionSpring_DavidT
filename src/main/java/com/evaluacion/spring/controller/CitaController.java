@@ -8,6 +8,9 @@ import com.evaluacion.spring.service.ICitaService;
 import com.evaluacion.spring.service.IServicioService;
 import com.evaluacion.spring.service.IProfesionalService;
 import com.evaluacion.spring.service.IUsuarioService;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -44,31 +47,30 @@ public class CitaController {
 
 	@PostMapping("/nueva")
 	public String crearCita(@RequestParam Integer servicioId, @RequestParam Integer profesionalId,
-			@RequestParam String fechaHora, Model model) {
+			@RequestParam String fechaHora, Model model, HttpSession session) {
 		try {
-			// Obtener el usuario actual (simulado como ID 1)
-			Usuario usuario = usuarioService.obtenerUsuarioActual();
+			// Obtener el usuario actual desde la sesión
+			Usuario usuario = (Usuario) session.getAttribute("usuario");
+			if (usuario == null) {
+				return "redirect:/login";
+			}
 
-			// Obtener servicio y profesional
+			// Resto del código igual...
 			Servicio servicio = servicioService.obtenerServicioPorId(servicioId);
 			Profesional profesional = profesionalService.obtenerProfesionalPorId(profesionalId);
 
-			// Convertir String a LocalDateTime
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 			LocalDateTime fechaHoraLocal = LocalDateTime.parse(fechaHora, formatter);
 
-			// Crear nueva cita
 			Cita nuevaCita = new Cita();
 			nuevaCita.setFechaHora(fechaHoraLocal);
 			nuevaCita.setEstado("PENDIENTE");
-			nuevaCita.setUsuario(usuario);
+			nuevaCita.setUsuario(usuario); // Usar usuario de sesión
 			nuevaCita.setServicio(servicio);
 			nuevaCita.setProfesional(profesional);
 
-			// Guardar en base de datos
 			citaService.guardarCita(nuevaCita);
 
-			// Redirigir al dashboard con mensaje de éxito
 			return "redirect:/dashboard?success=Cita agendada exitosamente";
 
 		} catch (Exception e) {

@@ -13,9 +13,9 @@ public class UsuarioServiceImplement implements IUsuarioService {
 
 	@Override
 	public Usuario obtenerUsuarioActual() {
-		// En una aplicación real, esto obtendría el usuario de la sesión
-		// Por ahora simulamos con ID 1
-		System.out.println("=== DEBUG: Obteniendo usuario actual (ID 1)");
+		// Este método ya no será usado para obtener el usuario de sesión
+		// Se mantiene por compatibilidad pero debería eliminarse gradualmente
+		System.out.println("=== ADVERTENCIA: obtenerUsuarioActual() simula usuario ID 1");
 		return usuarioRepository.findById(1).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 	}
 
@@ -34,12 +34,10 @@ public class UsuarioServiceImplement implements IUsuarioService {
 		Usuario usuarioExistente = usuarioRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-		// Actualizar campos
 		usuarioExistente.setNombre(usuarioActualizado.getNombre());
 		usuarioExistente.setEmail(usuarioActualizado.getEmail());
 		usuarioExistente.setTelefono(usuarioActualizado.getTelefono());
 
-		// Solo actualizar contraseña si se proporcionó una nueva
 		if (usuarioActualizado.getPassword() != null && !usuarioActualizado.getPassword().isEmpty()) {
 			usuarioExistente.setPassword(usuarioActualizado.getPassword());
 		}
