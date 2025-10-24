@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Citas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link th:href="@{/assets/css/index.css}" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <h1>Sistema de Citas</h1>
+        <div class="user-info">¡Hola, <span th:text="${usuario?.nombre ?: 'Usuario'}">Usuario</span>!</div>
+    </header>
+
+    <!-- Mensajes de éxito y error -->
+    <div th:if="${success}" class="success-message" th:text="${success}"></div>
+    <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+    <div class="container">
+        
+        <div class="card appointments-card">
+            <h2>📅 Mis Próximas Citas</h2>
+            
+            <table class="appointment-table">
+                <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th>Profesional</th>
+                        <th>Fecha y Hora</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cita : ${citas}">
+                        <td th:text="${cita.servicio?.nombre}">Servicio</td>
+                        <td th:text="${cita.profesional?.usuario?.nombre}">Profesional</td>
+                        <td th:text="${#temporals.format(cita.fechaHora, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+                        <td>
+                            <span th:classappend="'status-badge ' + ${cita.estado?.toLowerCase()}" 
+                                  th:text="${cita.estado}">Estado</span>
+                        </td>
+                        <td>
+                            <button th:if="${cita.estado != 'COMPLETADA'}" 
+                                    class="action-btn" 
+                                    th:onclick="'cancelarCita(' + ${cita.id} + ')'">
+                                Cancelar
+                            </button>
+                            <span th:if="${cita.estado == 'COMPLETADA'}">-</span>
+                        </td>
+                    </tr>
+                    
+                    <tr th:if="${citas == null or citas.empty}">
+                        <td colspan="5" class="empty-state">
+                            No tienes citas programadas. 
+                            <br><br>
+                            <button class="action-button" onclick="location.href='/citas/nueva'" style="padding: 10px 20px; font-size: 0.9em;">
+                                ¡Agenda tu primera cita!
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card actions-card">
+            <h2>🚀 Acciones Rápidas</h2>
+            <div class="quick-actions">
+                <button class="action-button" onclick="location.href='/citas/nueva'">
+                    📋 Solicitar Nueva Cita
+                </button>
+                <button class="action-button secondary" onclick="location.href='/citas/historial'">
+                    📊 Ver Historial de Citas
+                </button>
+                <button class="action-button secondary" onclick="location.href='/usuarios/editar'">
+                    👤 Editar Perfil
+                </button>
+            </div>
+
+            <div class="summary-card">
+                <h3 class="summary-title">📈 Resumen</h3>
+                <div class="summary-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" style="color: #4A90E2;" th:text="${citas != null ? citas.size() : 0}">0</div>
+                        <div class="stat-label">Citas totales</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" style="color: #4CAF50;" 
+                             th:text="${citas != null ? citas.?[estado == 'PENDIENTE'].size() : 0}">0</div>
+                        <div class="stat-label">Pendientes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" style="color: #2196F3;" 
+                             th:text="${citas != null ? citas.?[estado == 'COMPLETADA'].size() : 0}">0</div>
+                        <div class="stat-label">Completadas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        &copy; 2025 Sistema de Gestión de Citas. | Tu información está segura y cifrada.
+    </footer>
+
+	<script th:src="@{/assets/js/index.js}"></script>
+</body>
+</html>

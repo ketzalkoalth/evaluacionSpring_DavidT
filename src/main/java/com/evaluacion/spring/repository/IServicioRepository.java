@@ -1,10 +1,9 @@
 package com.evaluacion.spring.repository;
 
-import com.evaluacion.spring.model.Usuario;
+import com.evaluacion.spring.model.Servicio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
-    Usuario findByEmail(String email);
+public interface IServicioRepository extends JpaRepository<Servicio, Integer> {
 }

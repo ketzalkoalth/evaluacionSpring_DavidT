@@ -1,0 +1,209 @@
+/* dashboard.css */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.header {
+    background-color: #4A90E2;
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+.user-info {
+    font-size: 1em;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.user-info:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.container {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 20px auto;
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+    .container {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+.card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+}
+.card h2 {
+    color: #4A90E2;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 1.3em;
+}
+
+.appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.appointment-table th, .appointment-table td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+.appointment-table th {
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 600;
+}
+.status-badge.pendiente, .status-badge.pending {
+    background-color: #FFF3E0;
+    color: #FF9800;
+}
+.status-badge.confirmada, .status-badge.confirmed {
+    background-color: #E8F5E9;
+    color: #4CAF50;
+}
+.status-badge.completada, .status-badge.completed {
+    background-color: #E3F2FD;
+    color: #2196F3;
+}
+.action-btn {
+    background-color: #FF5252;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 400;
+}
+.action-btn:hover {
+    background-color: #D32F2F;
+}
+
+.quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.action-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.action-button:hover {
+    background-color: #388E3C;
+    transform: translateY(-2px);
+}
+.action-button.secondary {
+    background-color: #FFC107;
+    color: #333;
+}
+.action-button.secondary:hover {
+    background-color: #FFB300;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.success-message {
+    background-color: #E8F5E9;
+    color: #4CAF50;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 40px;
+    text-align: center;
+    border: 1px solid #C8E6C9;
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 40px;
+    text-align: center;
+    border: 1px solid #ffcdd2;
+}
+
+.empty-state {
+    text-align: center;
+    color: #666;
+    padding: 40px;
+    font-style: italic;
+}
+
+.summary-card {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.summary-title {
+    color: #4A90E2;
+    margin-top: 0;
+    font-size: 1.1em;
+}
+
+.summary-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.stat-label {
+    font-size: 0.8em;
+    color: #666;
+}

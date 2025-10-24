@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Citas - Sistema de Citas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+	<link th:href="@{/assets/css/historial-citas.css}" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <h1>Sistema de Citas</h1>
+        <a href="/dashboard" class="back-button">← Volver al Dashboard</a>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>📋 Historial de Citas</h2>
+            
+            <table class="historial-table">
+                <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th>Profesional</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Masaje Terapéutico</td>
+                        <td>María Gómez</td>
+                        <td>01/10/2025 09:00</td>
+                        <td><span class="status-badge completada">COMPLETADA</span></td>
+                        <td>$80.00</td>
+                    </tr>
+                    <tr>
+                        <td>Corte de Cabello</td>
+                        <td>María Gómez</td>
+                        <td>15/09/2025 14:30</td>
+                        <td><span class="status-badge completada">COMPLETADA</span></td>
+                        <td>$25.00</td>
+                    </tr>
+                    <tr>
+                        <td>Consulta Nutricional</td>
+                        <td>Dr. Andrés López</td>
+                        <td>01/09/2025 11:00</td>
+                        <td><span class="status-badge cancelada">CANCELADA</span></td>
+                        <td>$0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="empty-state">
+                <p>No hay más citas en tu historial</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
