@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class LoginController {
 
@@ -26,20 +28,28 @@ public class LoginController {
 	}
 
 	@PostMapping("/login")
-	public String procesarLogin(@RequestParam String email, @RequestParam String password, Model model) {
+	public String procesarLogin(@RequestParam String email, @RequestParam String password, Model model,
+			HttpSession session) {
 		try {
 			System.out.println("=== LOGIN ATTEMPT ===");
 			System.out.println("Email: " + email);
 			System.out.println("Password: " + password);
 
-			// Usar el servicio para autenticar
-			if (autenticarUsuario(email, password)) {
-				System.out.println("Login exitoso, redirigiendo al dashboard");
+			// Autenticar usuario
+			Usuario usuario = autenticarUsuario(email, password);
+			if (usuario != null) {
+				System.out.println("Login exitoso, usuario ID: " + usuario.getId());
+
+				// Guardar usuario en sesión
+				session.setAttribute("usuario", usuario);
+				session.setAttribute("usuarioId", usuario.getId());
+
+				System.out.println("Sesión creada para usuario ID: " + usuario.getId());
 				return "redirect:/dashboard";
 			} else {
 				System.out.println("Credenciales inválidas");
 				model.addAttribute("error", "Credenciales inválidas. Por favor, intenta nuevamente.");
-				model.addAttribute("email", email); // Mantener el email en el formulario
+				model.addAttribute("email", email);
 				return "login";
 			}
 
@@ -50,25 +60,35 @@ public class LoginController {
 		}
 	}
 
-	private boolean autenticarUsuario(String email, String password) {
+	private Usuario autenticarUsuario(String email, String password) {
 		try {
 			// Autenticación con base de datos
 			Usuario usuario = usuarioService.findByEmail(email);
 			if (usuario != null && usuario.getPassword().equals(password)) {
-				return true;
+				return usuario;
 			}
-			return false;
+
+			// Demo users para testing
+			if ("juan@email.com".equals(email) && "password123".equals(password)) {
+				return usuarioService.obtenerUsuarioPorId(1); // Juan Pérez
+			}
+			if ("maria@email.com".equals(email) && "password123".equals(password)) {
+				return usuarioService.obtenerUsuarioPorId(2); // María Gómez
+			}
+			if ("carlos@email.com".equals(email) && "password123".equals(password)) {
+				return usuarioService.obtenerUsuarioPorId(3); // Carlos López
+			}
+
+			return null;
 		} catch (Exception e) {
 			System.out.println("Error en autenticación: " + e.getMessage());
-			return false;
+			return null;
 		}
 	}
 
 	@GetMapping("/registro")
 	public String mostrarRegistro(Model model) {
-		// Para futura implementación
 		model.addAttribute("error", "Registro no implementado aún.");
 		return "login";
 	}
-
 }
