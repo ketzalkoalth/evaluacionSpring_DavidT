@@ -16,81 +16,102 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Controller
 @RequestMapping("/citas")
 public class CitaController {
 
-    @Autowired
-    private ICitaService citaService;
+	@Autowired
+	private ICitaService citaService;
 
-    @Autowired
-    private IServicioService servicioService;
+	@Autowired
+	private IServicioService servicioService;
 
-    @Autowired
-    private IProfesionalService profesionalService;
+	@Autowired
+	private IProfesionalService profesionalService;
 
-    @Autowired
-    private IUsuarioService usuarioService;
+	@Autowired
+	private IUsuarioService usuarioService;
 
-    @GetMapping("/nueva")
-    public String nuevaCitaForm(Model model) {
-        // Agregar datos necesarios para el formulario
-        model.addAttribute("servicios", servicioService.obtenerTodosLosServicios());
-        model.addAttribute("profesionales", profesionalService.obtenerTodosLosProfesionales());
-        return "nueva-cita";
-    }
+	@GetMapping("/nueva")
+	public String nuevaCitaForm(Model model) {
+		// Agregar datos necesarios para el formulario
+		model.addAttribute("servicios", servicioService.obtenerTodosLosServicios());
+		model.addAttribute("profesionales", profesionalService.obtenerTodosLosProfesionales());
+		return "nueva-cita";
+	}
 
-    @PostMapping("/nueva")
-    public String crearCita(@RequestParam Integer servicioId,
-                          @RequestParam Integer profesionalId,
-                          @RequestParam String fechaHora,
-                          Model model) {
-        try {
-            // Obtener el usuario actual (simulado como ID 1)
-            Usuario usuario = usuarioService.obtenerUsuarioActual();
-            
-            // Obtener servicio y profesional
-            Servicio servicio = servicioService.obtenerServicioPorId(servicioId);
-            Profesional profesional = profesionalService.obtenerProfesionalPorId(profesionalId);
-            
-            // Convertir String a LocalDateTime
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-            LocalDateTime fechaHoraLocal = LocalDateTime.parse(fechaHora, formatter);
-            
-            // Crear nueva cita
-            Cita nuevaCita = new Cita();
-            nuevaCita.setFechaHora(fechaHoraLocal);
-            nuevaCita.setEstado("PENDIENTE");
-            nuevaCita.setUsuario(usuario);
-            nuevaCita.setServicio(servicio);
-            nuevaCita.setProfesional(profesional);
-            
-            // Guardar en base de datos
-            citaService.guardarCita(nuevaCita);
-            
-            // Redirigir al dashboard con mensaje de éxito
-            return "redirect:/dashboard?success=Cita agendada exitosamente";
-            
-        } catch (Exception e) {
-            model.addAttribute("error", "Error al agendar la cita: " + e.getMessage());
-            return "nueva-cita";
-        }
-    }
+	@PostMapping("/nueva")
+	public String crearCita(@RequestParam Integer servicioId, @RequestParam Integer profesionalId,
+			@RequestParam String fechaHora, Model model) {
+		try {
+			// Obtener el usuario actual (simulado como ID 1)
+			Usuario usuario = usuarioService.obtenerUsuarioActual();
 
-    @GetMapping("/historial")
-    public String verHistorial() {
-        return "historial-citas";
-    }
+			// Obtener servicio y profesional
+			Servicio servicio = servicioService.obtenerServicioPorId(servicioId);
+			Profesional profesional = profesionalService.obtenerProfesionalPorId(profesionalId);
 
-    @PostMapping("/{id}/cancelar")
-    @ResponseBody
-    public ResponseEntity<?> cancelarCita(@PathVariable Integer id) {
-        try {
-            citaService.eliminarCita(id);
-            return ResponseEntity.ok().body("{\"message\": \"Cita cancelada exitosamente\"}");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"error\": \"Error al cancelar la cita\"}");
-        }
-    }
+			// Convertir String a LocalDateTime
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+			LocalDateTime fechaHoraLocal = LocalDateTime.parse(fechaHora, formatter);
+
+			// Crear nueva cita
+			Cita nuevaCita = new Cita();
+			nuevaCita.setFechaHora(fechaHoraLocal);
+			nuevaCita.setEstado("PENDIENTE");
+			nuevaCita.setUsuario(usuario);
+			nuevaCita.setServicio(servicio);
+			nuevaCita.setProfesional(profesional);
+
+			// Guardar en base de datos
+			citaService.guardarCita(nuevaCita);
+
+			// Redirigir al dashboard con mensaje de éxito
+			return "redirect:/dashboard?success=Cita agendada exitosamente";
+
+		} catch (Exception e) {
+			model.addAttribute("error", "Error al agendar la cita: " + e.getMessage());
+			return "nueva-cita";
+		}
+	}
+
+	@GetMapping("/historial")
+	public String verHistorial(Model model) {
+		try {
+			Usuario usuario = usuarioService.obtenerUsuarioActual();
+			System.out.println("=== HISTORIAL DEBUG: Usuario ID: " + usuario.getId());
+
+			List<Cita> citasHistorial = citaService.obtenerCitasPorUsuario(usuario.getId());
+			System.out.println("=== HISTORIAL DEBUG: Citas encontradas: " + citasHistorial.size());
+
+			// Debug detallado
+			for (Cita cita : citasHistorial) {
+				System.out.println("Cita ID: " + cita.getId() + ", Estado: " + cita.getEstado() + ", Servicio: "
+						+ (cita.getServicio() != null ? cita.getServicio().getNombre() : "null") + ", Fecha: "
+						+ cita.getFechaHora());
+			}
+
+			model.addAttribute("citas", citasHistorial);
+			return "historial-citas";
+
+		} catch (Exception e) {
+			System.out.println("ERROR en historial: " + e.getMessage());
+			e.printStackTrace();
+			model.addAttribute("error", "Error al cargar el historial: " + e.getMessage());
+			return "historial-citas";
+		}
+	}
+
+	@PostMapping("/{id}/cancelar")
+	@ResponseBody
+	public ResponseEntity<?> cancelarCita(@PathVariable Integer id) {
+		try {
+			citaService.eliminarCita(id);
+			return ResponseEntity.ok().body("{\"message\": \"Cita cancelada exitosamente\"}");
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body("{\"error\": \"Error al cancelar la cita\"}");
+		}
+	}
 }

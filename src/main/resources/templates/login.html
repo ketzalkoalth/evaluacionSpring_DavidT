@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Iniciar Sesión - Sistema de Citas</title>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+	<link th:href="@{/assets/css/login.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="login-container">
+		<div class="login-card">
+			<div class="login-header">
+				<h1>🔐 Sistema de Citas</h1>
+				<p>Ingresa a tu cuenta</p>
+			</div>
+
+			<!-- Mensajes de éxito y error -->
+			<div th:if="${success}" class="success-message" th:text="${success}"></div>
+			<div th:if="${error}" class="error-message" th:text="${error}"></div>
+			<div th:if="${param.logout}" class="success-message">✅ Sesión cerrada exitosamente</div>
+
+			<form th:action="@{/login}" method="post" id="loginForm">
+				<div class="form-group">
+					<label for="email">📧 Email:</label>
+					<input type="email" id="email" name="email" required placeholder="tu@email.com"
+						th:value="${email != null} ? ${email} : ''">
+				</div>
+
+				<div class="form-group">
+					<label for="password">🔒 Contraseña:</label>
+					<input type="password" id="password" name="password" required placeholder="••••••••">
+				</div>
+
+				<button type="submit" class="login-btn" id="loginBtn">
+					🚀 Iniciar Sesión
+				</button>
+			</form>
+
+			<div class="login-footer">
+				<p>¿No tienes cuenta? <a href="/registro" class="register-link">Regístrate aquí</a></p>
+				<p class="demo-credentials">
+					<strong>Credenciales de demo:</strong><br>
+					Email: juan@email.com<br>
+					Contraseña: password123
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<script th:src="@{/assets/js/login.js}"></script>
+</body>
+
+</html>

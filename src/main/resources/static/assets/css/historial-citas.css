@@ -1,107 +1,194 @@
 /* historial-citas.css */
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f4f7f6;
-    margin: 0;
-    padding: 0;
+	font-family: 'Poppins', sans-serif;
+	background-color: #f4f7f6;
+	margin: 0;
+	padding: 0;
 }
 
 .header {
-    background-color: #4A90E2;
-    color: white;
-    padding: 15px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	background-color: #4A90E2;
+	color: white;
+	padding: 15px 40px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .header h1 {
-    margin: 0;
-    font-size: 1.5em;
+	margin: 0;
+	font-size: 1.5em;
+	font-weight: 600;
 }
+
 .back-button {
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s;
+	background-color: transparent;
+	color: white;
+	border: 1px solid white;
+	padding: 8px 15px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background-color 0.3s;
+	font-weight: 400;
 }
+
 .back-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.1);
 }
 
 .container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
+	max-width: 1200px;
+	margin: 40px auto;
+	padding: 0 20px;
 }
 
 .card {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    padding: 30px;
+	background-color: white;
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	padding: 30px;
 }
 
 .card h2 {
-    color: #4A90E2;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 10px;
-    margin-top: 0;
+	color: #4A90E2;
+	border-bottom: 2px solid #f0f0f0;
+	padding-bottom: 10px;
+	margin-top: 0;
+	font-weight: 600;
 }
 
 .historial-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
 }
-.historial-table th, .historial-table td {
-    text-align: left;
-    padding: 12px 15px;
-    border-bottom: 1px solid #eee;
+
+.historial-table th,
+.historial-table td {
+	text-align: left;
+	padding: 12px 15px;
+	border-bottom: 1px solid #eee;
 }
+
 .historial-table th {
-    font-weight: 600;
-    color: #666;
-    text-transform: uppercase;
-    font-size: 0.9em;
+	font-weight: 600;
+	color: #666;
+	text-transform: uppercase;
+	font-size: 0.9em;
+	background-color: #f8f9fa;
+}
+
+.historial-table tr:hover {
+	background-color: #f8f9fa;
 }
 
 .status-badge {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 0.8em;
-    font-weight: 600;
+	display: inline-block;
+	padding: 5px 10px;
+	border-radius: 20px;
+	font-size: 0.8em;
+	font-weight: 600;
+	text-transform: uppercase;
 }
+
+.status-badge.pendiente {
+	background-color: #FFF3E0;
+	color: #FF9800;
+}
+
+.status-badge.confirmada {
+	background-color: #E8F5E9;
+	color: #4CAF50;
+}
+
 .status-badge.completada {
-    background-color: #E3F2FD;
-    color: #2196F3;
+	background-color: #E3F2FD;
+	color: #2196F3;
 }
+
 .status-badge.cancelada {
-    background-color: #FFEBEE;
-    color: #F44336;
+	background-color: #FFEBEE;
+	color: #F44336;
 }
 
 .empty-state {
-    text-align: center;
-    color: #666;
-    padding: 40px;
-    font-style: italic;
+	text-align: center;
+	color: #666;
+	padding: 40px;
+	font-style: italic;
+	background-color: #f8f9fa;
+	border-radius: 8px;
+	margin: 20px 0;
 }
 
 .table-responsive {
-    overflow-x: auto;
+	overflow-x: auto;
+	border-radius: 8px;
+	border: 1px solid #eee;
+}
+
+.success-message {
+	background-color: #E8F5E9;
+	color: #4CAF50;
+	padding: 15px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+	text-align: center;
+	border: 1px solid #C8E6C9;
+	font-weight: 500;
+}
+
+.error-message {
+	background-color: #ffebee;
+	color: #c62828;
+	padding: 15px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+	text-align: center;
+	border: 1px solid #ffcdd2;
+	font-weight: 500;
+}
+
+.action-button {
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	font-weight: 500;
+}
+
+.action-button:hover {
+	background-color: #388E3C;
 }
 
 @media (max-width: 768px) {
-    .historial-table {
-        font-size: 0.9em;
-    }
-    .historial-table th, 
-    .historial-table td {
-        padding: 8px 10px;
-    }
+	.historial-table {
+		font-size: 0.9em;
+	}
+
+	.historial-table th,
+	.historial-table td {
+		padding: 8px 10px;
+	}
+
+	.header {
+		padding: 15px 20px;
+		flex-direction: column;
+		gap: 10px;
+		text-align: center;
+	}
+
+	.container {
+		margin: 20px auto;
+		padding: 0 15px;
+	}
+
+	.card {
+		padding: 20px;
+	}
 }
